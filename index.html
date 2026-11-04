@@ -3,63 +3,101 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>愤怒的小鸟 - Angry Birds HTML5</title>
+  <title>愤怒的小鸟 · 木偶剧场弹道实验室</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main id="game-container" aria-label="愤怒的小鸟游戏画布容器">
-    <!-- Top HUD -->
-    <header class="hud-bar">
-      <div class="hud-group" role="group" aria-label="关卡选择">
-        <span class="hud-stat"><span class="label">关卡</span></span>
-        <button type="button" class="btn level-btn active" data-level="0">1</button>
-        <button type="button" class="btn level-btn" data-level="1">2</button>
-        <button type="button" class="btn level-btn" data-level="2">3</button>
+  <div class="theater-shell">
+    <!-- Top Hanging Wooden Scoreboard -->
+    <header class="wooden-header" aria-label="游戏控制与计分牌">
+      <div class="brand-plaque">
+        <span class="brand-badge">SLINGSHOT LAB</span>
+        <h1 class="brand-title">愤怒的小鸟</h1>
       </div>
 
-      <div class="hud-group" role="group" aria-label="游戏状态">
-        <div class="hud-stat">
-          <span class="label">得分</span>
+      <div class="stage-selector" role="group" aria-label="关卡选择">
+        <span class="plaque-label">STAGE</span>
+        <button type="button" class="btn-wood level-btn active" data-level="0">01 · 木屋初探</button>
+        <button type="button" class="btn-wood level-btn" data-level="1">02 · 双塔防线</button>
+        <button type="button" class="btn-wood level-btn" data-level="2">03 · 猪王要塞</button>
+      </div>
+
+      <div class="score-ledger" role="group" aria-label="游戏状态">
+        <div class="ledger-item">
+          <span class="label">得分 SCORE</span>
           <span class="value" id="score-val">0</span>
         </div>
-        <div class="hud-stat">
-          <span class="label">最高分</span>
+        <div class="ledger-divider"></div>
+        <div class="ledger-item">
+          <span class="label">最高 BEST</span>
           <span class="value" id="best-val">0</span>
         </div>
-        <div class="hud-stat">
-          <span class="label">剩余小鸟</span>
+        <div class="ledger-divider"></div>
+        <div class="ledger-item">
+          <span class="label">候场小鸟</span>
           <span class="value" id="birds-val">4</span>
         </div>
-        <div class="hud-stat">
-          <span class="label">剩余绿猪</span>
-          <span class="value" id="pigs-val">3</span>
+        <div class="ledger-divider"></div>
+        <div class="ledger-item">
+          <span class="label">幸存绿猪</span>
+          <span class="value pig-count" id="pigs-val">3</span>
         </div>
       </div>
 
-      <div class="hud-group" role="group" aria-label="游戏操作">
-        <button type="button" class="btn btn-primary" id="demo-btn" title="AI自动演示第一关一鸟三星通关">🤖 演示一鸟通关</button>
-        <button type="button" class="btn" id="skill-btn" title="飞行中触发小鸟特技 (空格键)">⚡ 特技 (Space)</button>
-        <button type="button" class="btn" id="sound-btn" aria-pressed="true">🔊 音效: 开</button>
-        <button type="button" class="btn" id="restart-btn">🔄 重玩本关</button>
+      <div class="action-rack" role="group" aria-label="游戏操作">
+        <button type="button" class="btn-wood btn-crimson" id="demo-btn" title="AI自动演示第一关一鸟三星通关">
+          🎯 一鸟通关演示
+        </button>
+        <button type="button" class="btn-wood btn-amber" id="skill-btn" title="飞行中触发小鸟特技 (Space)">
+          ⚡ 触发特技
+        </button>
+        <button type="button" class="btn-wood" id="sound-btn" aria-pressed="true">
+          🔊 音效: 开
+        </button>
+        <button type="button" class="btn-wood" id="restart-btn">
+          🔄 重置关卡
+        </button>
       </div>
     </header>
 
-    <canvas id="game-canvas" width="1280" height="720"></canvas>
+    <!-- Main Timber Stage Frame -->
+    <main id="game-container" aria-label="愤怒的小鸟游戏画布容器">
+      <span class="corner-rivet tl" aria-hidden="true"></span>
+      <span class="corner-rivet tr" aria-hidden="true"></span>
+      <span class="corner-rivet bl" aria-hidden="true"></span>
+      <span class="corner-rivet br" aria-hidden="true"></span>
 
-    <div class="controls-hint">
-      🎯 拖拽弹弓发射小鸟 ｜ 飞行中按 <strong>空格键 / 点击画布</strong> 触发特技（红鸟怒吼冲击、黄鸟加速冲刺、蓝鸟分身三连、黑鸟爆炸）｜ 按 <strong>R</strong> 重置
-    </div>
+      <canvas id="game-canvas" width="1280" height="720"></canvas>
 
-    <dialog id="result-dialog" closedby="any" aria-labelledby="dialog-title">
-      <h2 class="dialog-title" id="dialog-title">🎉 关卡胜利！</h2>
-      <div class="dialog-stars" id="dialog-stars" aria-label="星级评价">⭐⭐⭐</div>
-      <p class="dialog-score" id="dialog-score">本局得分：12500</p>
-      <div class="dialog-actions">
-        <button type="button" class="btn" id="dialog-retry-btn">🔄 再玩一次</button>
-        <button type="button" class="btn btn-primary" id="dialog-next-btn" autofocus>▶️ 下一关</button>
-      </div>
-    </dialog>
-  </main>
+      <!-- Bottom Field Manual Strip -->
+      <footer class="controls-hint" aria-label="兵种与操作图鉴">
+        <span class="manual-chip"><strong>拖拽弹弓</strong> 瞄准发射</span>
+        <span class="manual-sep">·</span>
+        <span class="manual-chip"><i class="dot red"></i><strong>怒红鸟</strong> 怒火震波</span>
+        <span class="manual-chip"><i class="dot yellow"></i><strong>飞镖黄</strong> 极速冲刺</span>
+        <span class="manual-chip"><i class="dot blue"></i><strong>蓝弟弟</strong> 三重分身</span>
+        <span class="manual-chip"><i class="dot black"></i><strong>炸弹黑</strong> 高爆破障</span>
+        <span class="manual-sep">·</span>
+        <span class="manual-chip">飞行中按 <kbd>Space</kbd> 释放特技 ｜ <kbd>R</kbd> 重置</span>
+      </footer>
+
+      <dialog id="result-dialog" closedby="any" aria-labelledby="dialog-title">
+        <div class="dialog-scroll">
+          <p class="dialog-eyebrow">STAGE REPORT · 战果结算</p>
+          <h2 class="dialog-title" id="dialog-title">🎉 关卡胜利！</h2>
+          <div class="dialog-stars" id="dialog-stars" aria-label="星级评价">⭐⭐⭐</div>
+          <p class="dialog-score" id="dialog-score">本局得分：45650</p>
+          <div class="dialog-actions">
+            <button type="button" class="btn-wood" id="dialog-retry-btn">🔄 再战一局</button>
+            <button type="button" class="btn-wood btn-crimson" id="dialog-next-btn" autofocus>▶️ 下一关卡</button>
+          </div>
+        </div>
+      </dialog>
+    </main>
+  </div>
 
   <script src="game.js"></script>
 </body>

@@ -1442,9 +1442,9 @@
       if (!this.autoDemo) return;
       const d = this.autoDemo;
 
-      // Target explosion zone indicator at (820, 590)
+      // Target explosion zone indicator at (820, 595)
       ctx.save();
-      ctx.strokeStyle = "rgba(255, 71, 87, 0.85)";
+      ctx.strokeStyle = "rgba(217, 43, 43, 0.9)";
       ctx.lineWidth = 2.5;
       ctx.setLineDash([6, 4]);
       ctx.beginPath();
@@ -1452,42 +1452,73 @@
       ctx.stroke();
       ctx.setLineDash([]);
 
-      ctx.fillStyle = "#ff4757";
-      ctx.font = "bold 13px -apple-system, BlinkMacSystemFont, sans-serif";
+      ctx.fillStyle = "#b81d1d";
+      ctx.font = "bold 13px 'JetBrains Mono', -apple-system, sans-serif";
       ctx.textAlign = "center";
-      ctx.fillText("⚡ 特技爆破点 (x=820)", 820, 556);
+      ctx.fillText("🎯 爆破引爆点 (X=820)", 820, 556);
 
-      // Banner at top-center below HUD
-      ctx.fillStyle = "rgba(20, 25, 38, 0.88)";
-      ctx.strokeStyle = "#ffcc00";
-      ctx.lineWidth = 2;
-      const bw = 650;
-      const bh = 38;
+      // Parchment & Timber Banner at top-center
+      ctx.fillStyle = "rgba(251, 243, 228, 0.95)";
+      ctx.strokeStyle = "#5d3519";
+      ctx.lineWidth = 3;
+      const bw = 660;
+      const bh = 40;
       const bx = (CONSTANTS.WIDTH - bw) / 2;
-      const by = 66;
+      const by = 22;
       ctx.beginPath();
-      ctx.roundRect(bx, by, bw, bh, 19);
+      ctx.roundRect(bx, by, bw, bh, 12);
       ctx.fill();
       ctx.stroke();
 
-      ctx.fillStyle = "#ffcc00";
+      ctx.fillStyle = "#2b1b10";
       ctx.font = "bold 15px -apple-system, BlinkMacSystemFont, sans-serif";
-      ctx.fillText(d.statusText, CONSTANTS.WIDTH / 2, by + 24);
+      ctx.fillText(d.statusText, CONSTANTS.WIDTH / 2, by + 25);
       ctx.restore();
     }
 
     _drawBackground(ctx) {
-      // Distant hills
-      ctx.fillStyle = "#8bc34a";
+      // Warm sunlit sky gradient
+      const skyGrad = ctx.createLinearGradient(0, 0, 0, CONSTANTS.GROUND_Y);
+      skyGrad.addColorStop(0, "#4ea8de");
+      skyGrad.addColorStop(0.62, "#ade8f4");
+      skyGrad.addColorStop(1, "#fdf8e1");
+      ctx.fillStyle = skyGrad;
+      ctx.fillRect(0, 0, CONSTANTS.WIDTH, CONSTANTS.GROUND_Y);
+
+      // Distant misty mountain range
+      ctx.fillStyle = "rgba(116, 168, 142, 0.45)";
       ctx.beginPath();
-      ctx.arc(280, CONSTANTS.GROUND_Y + 90, 290, Math.PI, 0);
-      ctx.arc(760, CONSTANTS.GROUND_Y + 120, 360, Math.PI, 0);
-      ctx.arc(1140, CONSTANTS.GROUND_Y + 80, 260, Math.PI, 0);
+      ctx.moveTo(0, CONSTANTS.GROUND_Y);
+      ctx.lineTo(0, 430);
+      ctx.lineTo(190, 310);
+      ctx.lineTo(390, 420);
+      ctx.lineTo(640, 275);
+      ctx.lineTo(910, 410);
+      ctx.lineTo(1120, 320);
+      ctx.lineTo(CONSTANTS.WIDTH, 415);
+      ctx.lineTo(CONSTANTS.WIDTH, CONSTANTS.GROUND_Y);
+      ctx.closePath();
       ctx.fill();
 
-      // Soft clouds
-      ctx.fillStyle = "rgba(255, 255, 255, 0.82)";
+      // Rolling pasture hills
+      ctx.fillStyle = "#80b918";
+      ctx.beginPath();
+      ctx.arc(260, CONSTANTS.GROUND_Y + 95, 290, Math.PI, 0);
+      ctx.arc(760, CONSTANTS.GROUND_Y + 125, 355, Math.PI, 0);
+      ctx.arc(1140, CONSTANTS.GROUND_Y + 85, 260, Math.PI, 0);
+      ctx.fill();
+
+      // Foreground hill layer
+      ctx.fillStyle = "#55a630";
+      ctx.beginPath();
+      ctx.arc(140, CONSTANTS.GROUND_Y + 130, 240, Math.PI, 0);
+      ctx.arc(540, CONSTANTS.GROUND_Y + 150, 280, Math.PI, 0);
+      ctx.arc(980, CONSTANTS.GROUND_Y + 135, 260, Math.PI, 0);
+      ctx.fill();
+
+      // Soft volumetric clouds
       for (const c of this.clouds) {
+        ctx.fillStyle = "rgba(255, 255, 255, 0.88)";
         ctx.beginPath();
         ctx.arc(c.x, c.y, 26 * c.s, 0, Math.PI * 2);
         ctx.arc(c.x + 24 * c.s, c.y - 8 * c.s, 32 * c.s, 0, Math.PI * 2);
@@ -1495,16 +1526,35 @@
         ctx.fill();
       }
 
-      // Ground grass & soil
-      ctx.fillStyle = "#558b2f";
-      ctx.fillRect(0, CONSTANTS.GROUND_Y, CONSTANTS.WIDTH, 16);
-      ctx.fillStyle = "#4e342e";
+      // Wooden slingshot platform pedestal
+      ctx.fillStyle = "#7f4f24";
+      ctx.strokeStyle = "#3d2314";
+      ctx.lineWidth = 2.5;
+      ctx.fillRect(CONSTANTS.SLING_X - 34, CONSTANTS.GROUND_Y - 10, 68, 12);
+      ctx.strokeRect(CONSTANTS.SLING_X - 34, CONSTANTS.GROUND_Y - 10, 68, 12);
+
+      // Ground turf top & stratified soil
+      ctx.fillStyle = "#38b000";
+      ctx.fillRect(0, CONSTANTS.GROUND_Y, CONSTANTS.WIDTH, 7);
+      ctx.fillStyle = "#2b9348";
+      ctx.fillRect(0, CONSTANTS.GROUND_Y + 7, CONSTANTS.WIDTH, 11);
+
+      ctx.fillStyle = "#582f0e";
       ctx.fillRect(
         0,
-        CONSTANTS.GROUND_Y + 16,
+        CONSTANTS.GROUND_Y + 18,
         CONSTANTS.WIDTH,
-        CONSTANTS.HEIGHT - CONSTANTS.GROUND_Y - 16
+        CONSTANTS.HEIGHT - CONSTANTS.GROUND_Y - 18
       );
+
+      // Soil pebbles texture
+      ctx.fillStyle = "rgba(38, 18, 5, 0.35)";
+      for (let px = 45; px < CONSTANTS.WIDTH; px += 95) {
+        ctx.beginPath();
+        ctx.ellipse(px, CONSTANTS.GROUND_Y + 38, 14, 6, 0.1, 0, Math.PI * 2);
+        ctx.ellipse(px + 42, CONSTANTS.GROUND_Y + 58, 9, 4, -0.2, 0, Math.PI * 2);
+        ctx.fill();
+      }
     }
 
     _drawSlingshotBack(ctx) {
@@ -1579,7 +1629,7 @@
         }
       }
 
-      // Predictive aiming parabola when dragging slingshot
+      // Predictive aiming parabola + Live Ballistic Rangefinder when dragging slingshot
       if (this.state === "AIMING") {
         const { vx, vy, pullDist } = this.computeLaunchVelocity(
           this.aimPos.x,
@@ -1593,11 +1643,34 @@
             this.aimPos.y + vy * t + 0.5 * CONSTANTS.GRAVITY * t * t;
           if (py > CONSTANTS.GROUND_Y) break;
           const alpha = 1 - step / 24;
-          ctx.fillStyle = `rgba(255, 255, 255, ${alpha.toFixed(2)})`;
+          ctx.fillStyle = `rgba(255, 252, 240, ${alpha.toFixed(2)})`;
+          ctx.strokeStyle = `rgba(62, 34, 15, ${(alpha * 0.55).toFixed(2)})`;
+          ctx.lineWidth = 1.5;
           ctx.beginPath();
-          ctx.arc(px, py, 4.2, 0, Math.PI * 2);
+          ctx.arc(px, py, step % 3 === 0 ? 5.2 : 3.6, 0, Math.PI * 2);
           ctx.fill();
+          ctx.stroke();
         }
+
+        // Signature Element: Live Ballistic Rangefinder Badge above Slingshot
+        const elevDeg = ((-Math.atan2(vy, vx) * 180) / Math.PI).toFixed(1);
+        const tensionPct = Math.round((pullDist / CONSTANTS.MAX_PULL) * 100);
+        ctx.save();
+        const rx = CONSTANTS.SLING_X - 72;
+        const ry = CONSTANTS.SLING_Y - 86;
+        ctx.fillStyle = "rgba(251, 243, 228, 0.94)";
+        ctx.strokeStyle = "#5d3519";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.roundRect(rx, ry, 148, 30, 8);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = "#2b1b10";
+        ctx.font = "bold 12px 'JetBrains Mono', ui-monospace, monospace";
+        ctx.textAlign = "center";
+        ctx.fillText(`∠ ${elevDeg}° · 满弓 ${tensionPct}%`, rx + 74, ry + 19);
+        ctx.restore();
       }
     }
 
@@ -1714,16 +1787,74 @@
         ctx.translate(b.x, b.y);
         ctx.rotate(b.angle);
 
+        const hw = b.w / 2;
+        const hh = b.h / 2;
+
+        // Base material fill
         ctx.fillStyle = b.mat.color;
+        ctx.fillRect(-hw, -hh, b.w, b.h);
+
+        // Procedural material texture details
+        if (b.matName === "wood") {
+          // Inner top highlight bevel
+          ctx.fillStyle = "rgba(255, 225, 180, 0.28)";
+          ctx.fillRect(-hw + 2, -hh + 2, b.w - 4, 4);
+
+          // Wood grain lines along the longer axis
+          ctx.strokeStyle = "rgba(110, 56, 15, 0.35)";
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          if (b.w >= b.h) {
+            ctx.moveTo(-hw + 6, -hh * 0.3);
+            ctx.lineTo(hw - 6, -hh * 0.3);
+            ctx.moveTo(-hw + 10, hh * 0.35);
+            ctx.lineTo(hw - 10, hh * 0.35);
+          } else {
+            ctx.moveTo(-hw * 0.3, -hh + 6);
+            ctx.lineTo(-hw * 0.3, hh - 6);
+            ctx.moveTo(hw * 0.35, -hh + 10);
+            ctx.lineTo(hw * 0.35, hh - 10);
+          }
+          ctx.stroke();
+
+          // Corner iron nail heads
+          ctx.fillStyle = "#5c3211";
+          const inset = 5;
+          if (b.w >= 18 && b.h >= 18) {
+            ctx.beginPath();
+            ctx.arc(-hw + inset, -hh + inset, 1.7, 0, Math.PI * 2);
+            ctx.arc(hw - inset, -hh + inset, 1.7, 0, Math.PI * 2);
+            ctx.arc(-hw + inset, hh - inset, 1.7, 0, Math.PI * 2);
+            ctx.arc(hw - inset, hh - inset, 1.7, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        } else if (b.matName === "glass") {
+          // Specular ice highlight border & diagonal frost shine
+          ctx.fillStyle = "rgba(255, 255, 255, 0.42)";
+          ctx.fillRect(-hw + 2, -hh + 2, b.w - 4, 4);
+          ctx.strokeStyle = "rgba(255, 255, 255, 0.65)";
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(-hw * 0.45, hh * 0.35);
+          ctx.lineTo(hw * 0.45, -hh * 0.35);
+          ctx.stroke();
+        } else if (b.matName === "stone") {
+          // Quarried stone top highlight and bottom shadow bevel
+          ctx.fillStyle = "rgba(255, 255, 255, 0.25)";
+          ctx.fillRect(-hw + 2, -hh + 2, b.w - 4, 4);
+          ctx.fillStyle = "rgba(30, 34, 45, 0.3)";
+          ctx.fillRect(-hw + 2, hh - 6, b.w - 4, 4);
+        }
+
+        // Crisp outer stroke
         ctx.strokeStyle = b.mat.stroke;
-        ctx.lineWidth = 2.5;
-        ctx.fillRect(-b.w / 2, -b.h / 2, b.w, b.h);
-        ctx.strokeRect(-b.w / 2, -b.h / 2, b.w, b.h);
+        ctx.lineWidth = 2.4;
+        ctx.strokeRect(-hw, -hh, b.w, b.h);
 
         // Damage cracks when HP < 70%
         const hpRatio = b.hp / b.maxHp;
         if (hpRatio < 0.7) {
-          ctx.strokeStyle = "rgba(20, 20, 20, 0.55)";
+          ctx.strokeStyle = "rgba(20, 20, 20, 0.62)";
           ctx.lineWidth = 1.8;
           ctx.beginPath();
           ctx.moveTo(-b.w * 0.25, -b.h * 0.3);

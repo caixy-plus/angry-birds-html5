@@ -1,0 +1,204 @@
+:root {
+  --sky-top: #4facfe;
+  --sky-bottom: #e0f7fa;
+  --ground-top: #689f38;
+  --ground-body: #5d4037;
+  --panel-bg: rgba(25, 32, 48, 0.85);
+  --accent: #ffcc00;
+  --danger: #ff4757;
+  --success: #2ed573;
+  --text-light: #ffffff;
+  color-scheme: light dark;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: #141923;
+  color: var(--text-light);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+#game-container {
+  position: relative;
+  width: min(1100px, 98vw);
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 0 3px rgba(255, 255, 255, 0.12);
+  background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-bottom) 82%);
+}
+
+#game-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: grab;
+  touch-action: none;
+}
+
+#game-canvas:active {
+  cursor: grabbing;
+}
+
+/* Top HUD */
+.hud-bar {
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.hud-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--panel-bg);
+  backdrop-filter: blur(8px);
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  pointer-events: auto;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+.hud-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.hud-stat .label {
+  color: #a4b0be;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.hud-stat .value {
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  font-size: 1.1rem;
+}
+
+.btn {
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 6px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.15s ease;
+}
+
+.btn:hover {
+  background: rgba(255, 255, 255, 0.24);
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #ff9f1a, #ff3838);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #ffaf40, #ff4d4d);
+}
+
+.level-btn.active {
+  background: var(--accent);
+  color: #1e272e;
+  border-color: var(--accent);
+}
+
+/* Bottom Help Banner */
+.controls-hint {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(20, 25, 35, 0.78);
+  backdrop-filter: blur(6px);
+  padding: 5px 16px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  color: #dfe4ea;
+  pointer-events: none;
+  white-space: nowrap;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* Native Dialog Modal */
+dialog#result-dialog {
+  margin: auto;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  background: rgba(22, 28, 42, 0.95);
+  color: #fff;
+  padding: 28px 34px;
+  min-width: 340px;
+  text-align: center;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+}
+
+dialog:modal {
+  overscroll-behavior: contain;
+}
+
+dialog#result-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+
+.dialog-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.dialog-stars {
+  font-size: 2.3rem;
+  margin: 10px 0;
+  letter-spacing: 8px;
+}
+
+.dialog-score {
+  font-size: 1.05rem;
+  color: #ced6e0;
+  margin-bottom: 20px;
+}
+
+.dialog-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
